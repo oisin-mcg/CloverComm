@@ -15,10 +15,12 @@
 
     <nav>
         <ul>
-            <li><a href="messenger.html">Messenger</a></li>
-            <li><a href="voice.html">Voice chat</a></li>
-            <li><a href="video.html">Video chat </a></li>
-            <li><a href="email.html">Email</a></li> 
+            <!--Anchor tags changed to accomodate Flasks static page function-->
+            <li><a href="{{ url_for('home') }}">Home</a></li>
+            <li><a href="{{ url_for('messenger_view') }}">Messenger</a></li>
+            <li><a href="{{ url_for('voice_view') }}">Voice Chat</a></li>
+            <li><a href="{{ url_for('video_view') }}">Video Chat</a></li>
+            <li><a href="{{ url_for('email_view') }}">Email</a></li>
         </ul>
     </nav>
 
