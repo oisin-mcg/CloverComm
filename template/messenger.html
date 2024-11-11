@@ -17,33 +17,31 @@
             <li><a href="{{ url_for('home') }}">Home</a></li>
             <li><a href="{{ url_for('voice_view') }}">Voice Chat</a></li>
             <li><a href="{{ url_for('video_view') }}">Video Chat</a></li>
-            <li><a href="{{ url_for('email_view') }}">Email</a></li>
+            <li><a href="{{ url_for('gustavo') }}">Gustavo</a></li>
         </ul>
-    </nav>
-
-    <section>
-        <h2>Messenger</h2>
-        <p>Enter your password to be hashed here...</p>
-        <div id="messengerContent">
-            <form action="{{ url_for('messenger_view') }}" method="post">
-                <label for="password">Password:</label>
-                <input type="password" id="password" name="password" required>
-                
-                <button type="submit">Hash Password</button>
-            </form>
-        
-            <!-- Display the hashed password if available -->
-            {% if hashed_password %}
-                <h3>Hashed Password:</h3>
-                <p>{{ hashed_password }}</p>
-            {% endif %}
-        </div>
-    </section>
-
-    <footer>
-        <p>&copy; 2024 CloverComm. All rights reserved.</p>
-    </footer>
-
-    <script src="messenger.js"></script>
-</body>
-</html>
+        <section>
+            <h2>Messenger</h2>
+            <p>Enter your password to be hashed here...</p>
+            <div id="messengerContent">
+                <form action="{{ url_for('messenger_view') }}" method="post">
+                    <label for="password">Password:</label>
+                    <input type="password" id="password" name="password" required>
+                    
+                    <button type="submit">Hash Password</button>
+                </form>
+            
+                <!-- Display the hashed password if available -->
+                {% if hashed_password %}
+                    <h3>Hashed Password:</h3>
+                    <p>{{ hashed_password }}</p>
+                {% endif %}
+            </div>
+        </section>
+    
+        <footer>
+            <p>&copy; 2024 CloverComm. All rights reserved.</p>
+        </footer>
+    
+        <script src="messenger.js"></script>
+    </body>
+    </html>

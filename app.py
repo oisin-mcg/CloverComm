@@ -1,6 +1,6 @@
 from flask import Flask, redirect, request, url_for, render_template, flash
 #here i will call from the utils class, the defs i will need.
-from utils import hash_password, verify_password
+from utils import hash_password, verify_password, encryption, decryption
 #https://www.digitalocean.com/community/tutorials/how-to-make-a-web-application-using-flask-in-python-3
 app = Flask(__name__, template_folder="template", static_folder="static")
 #https://www.youtube.com/watch?v=mqhxxeeTbu0
@@ -30,9 +30,24 @@ def voice_view():
 def video_view():
     return render_template("video.html") 
 
-@app.route("/email")
-def email_view():
-    return render_template("email.html")  
+@app.route("/gustavo", methods=["GET", "POST"])
+def gustavo():
+    encrypted_message = None
+    decrypted_message = None
+
+    if request.method == "POST":
+        if 'encrypt' in request.form:
+            print("Encrypting message...")
+            message = request.form.get("message")
+            if message:
+                encrypted_message = encryption(message) 
+        elif 'decrypt' in request.form:
+            print("Decrypting message...")
+            token = request.form.get("encrypted_message")
+            if token:
+                decrypted_message = decryption(token) 
+                
+    return render_template("gustavo.html", encrypted_message=encrypted_message, decrypted_message=decrypted_message)
 
 if __name__ == '__main__':
     app.run(debug=True)

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Secure Messaging - CloverComm</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body id="emailBody">
+    <header>
+        <h1>CloverComm</h1>
+        <h3>Gustavo's Page. Secure Message Encryption & Decryption</h3>
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="{{ url_for('home') }}">Home</a></li>
+            <li><a href="{{ url_for('messenger_view') }}">Messenger</a></li>
+            <li><a href="{{ url_for('voice_view') }}">Voice Chat</a></li>
+            <li><a href="{{ url_for('video_view') }}">Video Chat</a></li>
+            <li><a href="{{ url_for('gustavo') }}">Gustavo</a></li>
+        </ul>
+    </nav>
+    <!-- https://jinja.palletsprojects.com/en/stable/templates/ -->
+    <section class="message-section">
+        <div class="form-container">
+            <h2>Encrypt a Message</h2>
+            <form method="POST">
+                <label for="message">Message:</label><br>
+                <textarea id="message" name="message" required></textarea><br><br>
+                <button type="submit" name="encrypt">Encrypt Message</button>
+            </form>
+            
+            {% if encrypted_message %}
+                <div class="display-box" id="encryptedMessageBox">
+                    <h3>Encrypted Message:</h3>
+                    <p>{{ encrypted_message }}</p>
+                </div>
+            {% endif %}
+        </div>
+        <div class="form-container">
+            <h2>Decrypt a Message</h2>
+            <form method="POST">
+                <label for="encrypted_message">Encrypted Message:</label><br>
+                <textarea id="encrypted_message" name="encrypted_message" required></textarea><br><br>
+                <button type="submit" name="decrypt">Decrypt Message</button>
+            </form>
+
+            {% if decrypted_message %}
+                <div class="display-box" id="decryptedMessageBox">
+                    <h3>Decrypted Message:</h3>
+                    <p>{{ decrypted_message }}</p>
+                </div>
+            {% endif %}
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2024 CloverComm. All rights reserved.</p>
+    </footer>
+</body>
+</html>

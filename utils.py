@@ -46,5 +46,25 @@ def verify_password(stored_password: str, input_password: str) -> bool:
 #Hash a user's password (e.g., during registration)
 hashed_pw = hash_password("user_password123")
 print("Hashed Password:", hashed_pw)
+
+#Verify the password (e.g., during login)
+is_valid = verify_password(hashed_pw, "user_password123")
+print("Password is valid:", is_valid)
 #will need to incorporate 'Flask' to ensure the frontend info is passed to the python backend. Wwill also have to use some form of JavaScript.
 #End of Conors Code.
+
+
+
+#Gustavo's code https://www.geeksforgeeks.org/fernet-symmetric-encryption-using-cryptography-module-in-python/
+from cryptography.fernet import Fernet
+key = Fernet.generate_key()
+f = Fernet(key)
+
+def encryption(message):
+    token = f.encrypt(message.encode())
+    return token.decode()
+
+def decryption(token):
+    decrypted_message = f.decrypt(token.encode())
+    return decrypted_message.decode()
+# end of Gustavo's

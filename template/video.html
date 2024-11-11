@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Video Chat - CloverComm</title>
-    <link rel="stylesheet"href="{{ url_for('static', filename='style.css') }}"/>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body id="videoBody">
     <header>
@@ -15,8 +15,9 @@
     <nav>
         <ul>
             <li><a href="{{ url_for('home') }}">Home</a></li>
+            <li><a href="{{ url_for('messenger_view') }}">Messenger</a></li>
             <li><a href="{{ url_for('voice_view') }}">Voice Chat</a></li>
-            <li><a href="{{ url_for('email_view') }}">Email</a></li>
+            <li><a href="{{ url_for('gustavo') }}">Gustavo</a></li>
         </ul>
     </nav>
 
