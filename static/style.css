@@ -85,3 +85,44 @@ footer p {
     color: var(--text-color);
     font-size: 1em;
 }
+/* Gustavo's page css code */
+.message-section {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+}
+
+.form-container {
+    width: 48%;
+    padding: 20px;
+    background-color: #104C61;
+    color: #ffffff;
+}
+
+.display-box {
+    width: 100%; 
+    max-width: 100%;
+    margin-top: 20px;
+    padding: 10px;
+    background-color: #000;
+    color: #ffffff;
+    overflow-wrap: break-word;
+}
+textarea, button {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+}
+
+textarea {
+    height: 100px;
+    resize: none;
+}
+
+button {
+    background-color: #104C61;
+    color: #ffffff;
+    border: 2px solid #000000;
+    font-weight: bold;
+}
+/* Gustavo's page css code ends*/
