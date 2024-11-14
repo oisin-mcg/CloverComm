@@ -17,24 +17,24 @@
             <li><a href="{{ url_for('home') }}">Home</a></li>
             <li><a href="{{ url_for('messenger_view') }}">Messenger</a></li>
             <li><a href="{{ url_for('voice_view') }}">Voice Chat</a></li>
-            <li><a href="{{ url_for('video_view') }}">Video Chat</a></li>
             <li><a href="{{ url_for('gustavo') }}">Gustavo</a></li>
             <li><a href="{{ url_for('imageEncryption') }}">Image Encryption</a></li>
         </ul>
     </nav>
-
-    <section>
-        <h2>Voice Chat</h2>
-        <p>Talk to your friends with clear, high-quality voice chat.</p>
-        <div id="voiceChatContent">
-            <!-- Voice chat interface will be implemented here -->
+    <main>
+        <div id="form-container">
+            <label for="call_id">Call ID:</label>
+            <input type="text" id="call_id" required>
+            <label for="password">Password:</label>
+            <input type="password" id="password" required>
+            <button id="start-call">Start Call</button>
         </div>
-    </section>
-
-    <footer>
-        <p>&copy; 2024 CloverComm. All rights reserved.</p>
-    </footer>
-
-    <script src="voice.js"></script>
+        <div id="call-container" style="display:none;">
+            <audio id="localAudio" autoplay muted></audio>
+            <audio id="remoteAudio" autoplay></audio>
+            <button id="hangup">Hang Up</button>
+        </div>
+    </main>
+    <script src="{{ url_for('static', filename='voice.js') }}"></script>
 </body>
 </html>

@@ -9,6 +9,16 @@ app = Flask(__name__, template_folder="template", static_folder="static")
 #https://www.youtube.com/watch?v=mqhxxeeTbu0
 #https://www.youtube.com/@TechWithTim
 
+#oisin imports
+from flask import Flask, render_template, request, jsonify
+import base64
+import os
+from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
+from cryptography.hazmat.primitives import hashes
+from cryptography.hazmat.backends import default_backend
+
+
+
 @app.route("/")
 def home():
     return render_template("index.html")
@@ -27,13 +37,49 @@ def messenger_view():
     return render_template("messenger.html", hashed_password=hashed_password)
 
 
-@app.route("/voice")
+##ois code
+
+# global counter for connections
+connection_count = 0
+
+#here i am generating a unique key for the voice call connection capibilities
+def generate_key(call_id, password):
+    salt = call_id.encode()  # using Call ID as salt
+    kdf = PBKDF2HMAC(
+        algorithm=hashes.SHA256(),
+        length=32,
+        salt=salt,
+        iterations=100000,
+        backend=default_backend()
+    )
+    key = base64.urlsafe_b64encode(kdf.derive(password.encode()))
+    return key.decode()
+
+
+@app.route("/voice", methods=["GET", "POST"])
 def voice_view():
     return render_template("voice.html") 
 
-@app.route("/video")
-def video_view():
-    return render_template("video.html") 
+@app.route('/generate_key', methods=['POST'])
+def get_key():
+    global connection_count
+    data = request.get_json()
+    call_id = data.get('call_id')
+    password = data.get('password')
+    if not call_id or not password:
+        return jsonify({'error': 'Call ID and password are required.'}), 400
+
+    #increment the connection counter when a key is generated (new connection) or when a call starts (old connection resumed)
+    connection_count += 1
+    key = generate_key(call_id, password)
+    return jsonify({'key': key, 'connection_count': connection_count})
+
+@app.route('/get_connection_count', methods=['GET'])
+def get_connection_count():
+    return jsonify({'connection_count': connection_count})
+
+
+
 #Gustavo's Page
 @app.route("/gustavo", methods=["GET", "POST"])
 def gustavo():
