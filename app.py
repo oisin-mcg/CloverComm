@@ -1,14 +1,19 @@
 from flask import Flask, redirect, request, url_for, render_template, flash
+
 #here i will call from the utils class, the defs i will need.
-from utils import hash_password, verify_password, encryption, decryption
+from utils import hash_password, verify_password, encryption, decryption, encryptImage, decryptImage
+
 #https://www.digitalocean.com/community/tutorials/how-to-make-a-web-application-using-flask-in-python-3
 app = Flask(__name__, template_folder="template", static_folder="static")
+
 #https://www.youtube.com/watch?v=mqhxxeeTbu0
 #https://www.youtube.com/@TechWithTim
+
 @app.route("/")
 def home():
     return render_template("index.html")
 
+#Conor's Page
 @app.route("/messenger", methods=["GET", "POST"])
 def messenger_view():
     #Initialize variable to store hashed password
@@ -29,7 +34,7 @@ def voice_view():
 @app.route("/video")
 def video_view():
     return render_template("video.html") 
-
+#Gustavo's Page
 @app.route("/gustavo", methods=["GET", "POST"])
 def gustavo():
     encrypted_message = None
@@ -48,6 +53,31 @@ def gustavo():
                 decrypted_message = decryption(token) 
                 
     return render_template("gustavo.html", encrypted_message=encrypted_message, decrypted_message=decrypted_message)
+
+#Vitor's Page
+@app.route("/imageEncryption", methods=["GET", "POST"])
+def imageEncryption():
+   
+    image_message = None
+
+    if request.method =="POST":
+        if 'encryptImage' in request.form:
+            path = request.form.get("path")
+            key = request.form.get("key")
+
+            if path and key:
+                encryptImage(path, key)
+                image_message = "Your Image has been encrypted"
+                
+        elif 'decryptImage' in request.form:
+            path = request.form.get("path")
+            key = request.form.get("key")
+            
+            if path and key:
+                decryptImage(path, key)
+                image_message = "Your Image has been decrypted"
+    
+    return render_template("imageEncryption.html", image_message=image_message)
 
 if __name__ == '__main__':
     app.run(debug=True)

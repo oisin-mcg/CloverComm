@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SGP</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <header>
+        <h1>CloverComm</h1>
+        <h3>Image Encryption</h3>
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="{{ url_for('home') }}">Home</a></li>
+            <li><a href="{{ url_for('messenger_view') }}">Messenger</a></li>
+            <li><a href="{{ url_for('voice_view') }}">Voice Chat</a></li>
+            <li><a href="{{ url_for('video_view') }}">Video Chat</a></li>
+            <li><a href="{{ url_for('gustavo') }}">Gustavo</a></li>
+            <li><a href="{{ url_for('imageEncryption') }}">Image Encryption</a></li>
+        </ul>
+    </nav>
+    <!-- Vitor's Code -->
+    <!-- reference - https://jinja.palletsprojects.com/en/stable/templates/ -->
+    <!-- Gustvo's code structure was also used as a reference (But not its logic) -->
+
+    <section>
+        <div>
+            <h1>Image Encryption:</h1>
+            <h2>In order to encrypt or decrypt your image, you will need its pathing(ex: C:\Users\...\CloverComm\images\test.jpg) and a key(a number, ex: 21).</h2>
+            <h2>*MAKE SURE YOU USE THE SAME KEY TO ENCRYPT AND DECRYPT THE SAME IMAGE*</h2>
+            <h2>*MAKE SURE THE PATHING IS NOT IN BERTWEEN QUOTES*</h2>
+            <h2>*MAKE SURE YOU USE ENCRYPT THE FILE FIRST AND THEN DECRYPT, OTHERWISE IT IS IRREVERSIBLE*</h2>
+            <h2>Please enter the path and key of the picture you want to modify:</h2>
+            <form method="post">
+                <label for="path">Path:</label><br>
+                <input id="path" name="path" required></input><br><br>
+                <label for="key">Key:</label><br>
+                <input id="key" name="key" required></input><br><br>
+                <button type="submit" name="encryptImage">Encrypt Message</button>
+                <br><br>
+                <button type="submit" name="decryptImage">Decrypt Message</button>
+            </form>  
+            
+            {% if image_message %}
+                <p>{{image_message}}</p>
+            {% endif %}
+
+        </div>
+    </section>    
+
+    <footer>
+        <p>&copy; 2024 CloverComm. All rights reserved.</p>
+    </footer>
+
+    <script src="home.js"></script>
+</body>
+</html>

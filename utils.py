@@ -50,10 +50,7 @@ print("Hashed Password:", hashed_pw)
 #Verify the password (e.g., during login)
 is_valid = verify_password(hashed_pw, "user_password123")
 print("Password is valid:", is_valid)
-#will need to incorporate 'Flask' to ensure the frontend info is passed to the python backend. Wwill also have to use some form of JavaScript.
 #End of Conors Code.
-
-
 
 #Gustavo's code https://www.geeksforgeeks.org/fernet-symmetric-encryption-using-cryptography-module-in-python/
 from cryptography.fernet import Fernet
@@ -68,3 +65,60 @@ def decryption(token):
     decrypted_message = f.decrypt(token.encode())
     return decrypted_message.decode()
 # end of Gustavo's
+
+# Vitor's code 
+# reference - https://www.geeksforgeeks.org/encrypt-and-decrypt-image-using-python/
+
+def encryptImage(path, key):
+    # try block to handle exception
+    try:       
+        # open file for reading purpose
+        fin = open(path, 'rb')
+        
+        # storing image data in variable "image"
+        image = fin.read()
+        fin.close()
+        
+        # converting image into byte array to 
+        # perform encryption easily on numeric data
+        image = bytearray(image)
+    
+        # performing XOR operation on each value of bytearray
+        for index, values in enumerate(image):
+            image[index] = values ^ int(key)
+    
+        # opening file for writing purpose
+        fin = open(path, 'wb')
+        
+        # writing encrypted data in image
+        fin.write(image)
+        fin.close()
+
+    except Exception:
+        print('Error caught : ', Exception.__name__)
+
+def decryptImage(path, key):
+    try:
+        # opening file for reading purpose
+        fin = open(path, 'rb')
+     
+        # storing image data in variable "image"
+        image = fin.read()
+        fin.close()
+        
+        # converting image into byte array to perform decryption easily on numeric data
+        image = bytearray(image)
+    
+        # performing XOR operation on each value of bytearray
+        for index, values in enumerate(image):
+            image[index] = values ^ int(key)
+    
+        # opening file for writing purpose
+        fin = open(path, 'wb')
+        
+        # writing decryption data in image
+        fin.write(image)
+        fin.close()
+   
+    except Exception:
+        print('Error caught : ', Exception.__name__)
