@@ -15,8 +15,8 @@ const passwordInput = document.getElementById('password');
 const localAudio = document.getElementById('localAudio');
 const remoteAudio = document.getElementById('remoteAudio');
 
-// Function to fetch and display the connection count from the Flask app
-async function fetchConnectionCount() {
+//function to fetch and display user count if the app were to be deployed on a web server (this will always be 0 on a local testing envioroment due to an issue with windows port rules)
+/*async function fetchConnectionCount() {
     try {
         const response = await fetch('/get_connection_count');
         const data = await response.json();
@@ -24,9 +24,10 @@ async function fetchConnectionCount() {
     } catch (error) {
         console.error('Error fetching connection count:', error);
     }
-}
+}*/
 
-// Generate encryption key from password for client-side
+//function to generate encryption key from password for client-side
+//i derive a salt key from the call ID and password 
 async function generateKey(callID, password) {
     const encoder = new TextEncoder();
     const keyMaterial = await window.crypto.subtle.importKey(
@@ -36,6 +37,7 @@ async function generateKey(callID, password) {
         false,
         ['deriveKey']
     );
+    //derive key
     return window.crypto.subtle.deriveKey(
         {
             name: 'PBKDF2',
@@ -50,7 +52,8 @@ async function generateKey(callID, password) {
     );
 }
 
-// Encrypt audio data before sending
+//encrypt our audio data before sending
+// i use the generated key
 async function encryptData(data) {
     const iv = window.crypto.getRandomValues(new Uint8Array(12));
     const encrypted = await window.crypto.subtle.encrypt(
@@ -64,7 +67,7 @@ async function encryptData(data) {
     return { iv, encrypted };
 }
 
-// Decrypt audio data received from connection
+//this function handles data decryption
 async function decryptData(encryptedData, iv) {
     try {
         const decrypted = await window.crypto.subtle.decrypt(
@@ -82,7 +85,7 @@ async function decryptData(encryptedData, iv) {
     }
 }
 
-// Start call
+//event listener for the star call btn 
 callButton.addEventListener('click', async () => {
     const callID = callIDInput.value;
     const password = passwordInput.value;
@@ -92,8 +95,10 @@ callButton.addEventListener('click', async () => {
         return;
     }
 
+    //wait for encryption function to complete to avoid connecting prematurly
     encryptionKey = await generateKey(callID, password);
 
+        //ask user for microphone permission to stream mic data then start sending data 
     try {
         localStream = await navigator.mediaDevices.getUserMedia({ audio: true });
         localAudio.srcObject = localStream;
@@ -102,11 +107,21 @@ callButton.addEventListener('click', async () => {
         return;
     }
 
+    //begin peer to peer connection
     peerConnection = new RTCPeerConnection(configuration);
     localStream.getTracks().forEach(track => {
         peerConnection.addTrack(track, localStream);
     });
 
+
+
+    /*these two functions would be used in the event of deployment, 
+    *it sets up the client side for ICE deplyment however due to the time and hardware constraints i am unable to set up a local ICE server
+    *this is just an example of how i would implement it 
+    *to test you count install pip flask socket however you would need to modify app.py to operate at its start as a ICE server which was
+    *casuing confiling issues and traceback errors with my group memeber scode
+    */
+    ///notify user of connection
     peerConnection.ontrack = event => {
         const [remoteStream] = event.streams;
         remoteAudio.srcObject = remoteStream;
@@ -130,7 +145,7 @@ callButton.addEventListener('click', async () => {
     fetchConnectionCount();
 });
 
-// Hang up the call
+//hang up the call
 if (hangupButton) {
     hangupButton.addEventListener('click', () => {
         if (peerConnection) {
@@ -147,11 +162,12 @@ if (hangupButton) {
     });
 }
 
-// Onload function
+//onload function
 window.onload = () => {
-    if (location.protocol !== 'https:') {
-        alert('WebRTC and secure features require HTTPS.');
-    }
+    // i would use this funcition in a real world application to alert users that their connection must be https to fucntion
+  //  if (location.protocol !== 'https:') {
+   //     alert('WebRTC and secure features require HTTPS.');
+  //  }
     fetchConnectionCount();
     if (Notification.permission !== "granted") {
         Notification.requestPermission();

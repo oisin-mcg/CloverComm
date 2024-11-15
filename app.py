@@ -3,7 +3,6 @@ from flask import Flask, redirect, request, url_for, render_template, flash
 #here i will call from the utils class, the defs i will need.
 from utils import hash_password, verify_password, encryption, decryption, encryptImage, decryptImage
 
-
 #https://www.digitalocean.com/community/tutorials/how-to-make-a-web-application-using-flask-in-python-3
 app = Flask(__name__, template_folder="template", static_folder="static")
 
@@ -11,13 +10,13 @@ app = Flask(__name__, template_folder="template", static_folder="static")
 #https://www.youtube.com/@TechWithTim
 
 app.secret_key="secret_key"
-#oisin imports
 from flask import Flask, render_template, request, jsonify
 import base64
 import os
 from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
 from cryptography.hazmat.primitives import hashes
 from cryptography.hazmat.backends import default_backend
+
 
 
 
@@ -76,7 +75,7 @@ def messenger_view():
 
 ##ois code
 
-# global counter for connections
+# global counter for connection count
 connection_count = 0
 
 #here i am generating a unique key for the voice call connection capibilities
@@ -111,10 +110,10 @@ def get_key():
     key = generate_key(call_id, password)
     return jsonify({'key': key, 'connection_count': connection_count})
 
+#display user connections to all connected users
 @app.route('/get_connection_count', methods=['GET'])
 def get_connection_count():
     return jsonify({'connection_count': connection_count})
-
 
 
 #Gustavo's Page

@@ -10,7 +10,7 @@ In order to Initilise the application you need to:
     5. Activate your envioroment: venv\Scripts\activate
     6.Install other requirements: pip install -r requirements.txt
     7.Run the app python app.py
-    8.Click the port link to the web application
+    8.Click the port IP link to the web application
 
 Youtube resources : @TechWithTim
 Stack overflow for venv:ttps://stackoverflow.com/questions/69888608/how-to-run-a-flask-app-for-app-platform-locally-in-my-venv
