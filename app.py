@@ -3,12 +3,14 @@ from flask import Flask, redirect, request, url_for, render_template, flash
 #here i will call from the utils class, the defs i will need.
 from utils import hash_password, verify_password, encryption, decryption, encryptImage, decryptImage
 
+
 #https://www.digitalocean.com/community/tutorials/how-to-make-a-web-application-using-flask-in-python-3
 app = Flask(__name__, template_folder="template", static_folder="static")
 
 #https://www.youtube.com/watch?v=mqhxxeeTbu0
 #https://www.youtube.com/@TechWithTim
 
+app.secret_key="secret_key"
 #oisin imports
 from flask import Flask, render_template, request, jsonify
 import base64
@@ -24,18 +26,53 @@ def home():
     return render_template("index.html")
 
 #Conor's Page
+#array for the stored passwords.
+hashed_passwords = []
 @app.route("/messenger", methods=["GET", "POST"])
 def messenger_view():
-    #Initialize variable to store hashed password
+    #access password list..
+    global hashed_passwords
+    #flag to control when to show the stored passwords
+    show_passwords_flag = False
+    #initialize variable to store hashed password
     hashed_password = None  
     if request.method == 'POST':
-        #Get the password from the form input
-        password = request.form['password']
-        #Call hash_password to hash the entered password
-        hashed_password = hash_password(password)
-    #Render the template with the hashed password (if available)
-    return render_template("messenger.html", hashed_password=hashed_password)
+        #handle password submission
+        if "submit_password" in request.form:
+            password = request.form.get("password", "").strip()
+            if password:
+                hashed_password = hash_password(password)
+                hashed_passwords.append(hashed_password)
+                flash("Password stored!", "success")
+            else:
+                flash("Please enter a password.", "error")
+        elif "show_passwords" in request.form:
+            #simply refresh to show the list
+            show_passwords_flag = True
+        elif "clear_passwords" in request.form:
+            #clear the stored hashed passwords when the "Clear Passwords" button is clicked
+            hashed_passwords.clear()
+            flash("All passwords cleared.", "info")
+        elif "verify_password" in request.form:
+            #handle password verification
+            input_password = request.form.get("verify_input_password", "").strip()
+            if input_password:
+                password_verified = False
+                #check if the input password matches any stored password
+                for stored_password in hashed_passwords:
+                    if verify_password(stored_password, input_password):
+                        password_verified = True
+                        break
+                if password_verified:
+                    flash("Password is correct.", "success")
+                else:
+                    flash("Password is incorrect.", "error")
+            else:
+                flash("Please enter a password to verify.", "error")
 
+    return render_template("messenger.html", hashed_passwords=hashed_passwords)
+
+    return render_template("messenger.html", hashed_passwords=hashed_passwords)
 
 ##ois code
 

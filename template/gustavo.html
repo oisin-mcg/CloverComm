@@ -1,19 +1,31 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Secure Messaging - CloverComm</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
+
 <body id="emailBody">
     <header>
         <h1>CloverComm</h1>
         <h3>Gustavo's Page. Secure Message Encryption & Decryption</h3>
     </header>
 
+
+    <nav>
+        <ul>
+            <li><a href="{{ url_for('home') }}">Home</a></li>
+            <li><a href="{{ url_for('messenger_view') }}">Password Manager(Conor)</a></li>
+            <li><a href="{{ url_for('voice_view') }}">Voice Chat (Oisin)</a></li>
+            <li><a href="{{ url_for('imageEncryption') }}">Image Encryption(Vitor)</a></li>
+        </ul>
+    </nav>
+
+
     <section class="message-section">
-        <!-- User 1 Input -->
         <div class="form-container user-box">
             <h2>User 1</h2>
             <form method="POST">
@@ -27,9 +39,10 @@
             <h2>Chat Log</h2>
             <div class="messages">
                 {% for user, encrypted_message, decrypted_message in chat_log %}
-                    <p><strong>{{ user }}:</strong><br>
+                <p><strong>{{ user }}:</strong><br>
                     <em>Encrypted:</em> {{ encrypted_message }}<br>
-                    <em>Decrypted:</em> {{ decrypted_message }}</p>
+                    <em>Decrypted:</em> {{ decrypted_message }}
+                </p>
                 {% endfor %}
             </div>
         </div>
@@ -47,4 +60,5 @@
         <p>&copy; 2024 CloverComm. All rights reserved.</p>
     </footer>
 </body>
+
 </html>
