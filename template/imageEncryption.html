@@ -15,10 +15,10 @@
     <nav>
         <ul>
             <li><a href="{{ url_for('home') }}">Home</a></li>
-            <li><a href="{{ url_for('messenger_view') }}">Messenger</a></li>
-            <li><a href="{{ url_for('voice_view') }}">Voice Chat</a></li>
-            <li><a href="{{ url_for('gustavo') }}">Gustavo</a></li>
-        </ul>
+            <li><a href="{{ url_for('messenger_view') }}">Password Manager(Conor)</a></li>
+            <li><a href="{{ url_for('voice_view') }}">Voice Chat (Oisin)</a></li>
+            <li><a href="{{ url_for('gustavo') }}">Messenger (Gustavo)</a></li>
+            <li><a href="{{ url_for('imageEncryption') }}">Image Encryption(Vitor)</a></li>
     </nav>
     <!-- Vitor's Code -->
     <!-- reference - https://jinja.palletsprojects.com/en/stable/templates/ -->
@@ -37,9 +37,9 @@
                 <input id="path" name="path" required></input><br><br>
                 <label for="key">Key:</label><br>
                 <input id="key" name="key" required></input><br><br>
-                <button type="submit" name="encryptImage">Encrypt Message</button>
+                <button type="submit" name="encryptImage">Encrypt Image</button>
                 <br><br>
-                <button type="submit" name="decryptImage">Decrypt Message</button>
+                <button type="submit" name="decryptImage">Decrypt Image</button>
             </form>  
             
             {% if image_message %}
