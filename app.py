@@ -83,23 +83,22 @@ def get_connection_count():
 #Gustavo's Page
 @app.route("/gustavo", methods=["GET", "POST"])
 def gustavo():
-    encrypted_message = None
-    decrypted_message = None
-
+    chat_log = []
     if request.method == "POST":
-        if 'encrypt' in request.form:
-            print("Encrypting message...")
-            message = request.form.get("message")
-            if message:
-                encrypted_message = encryption(message) 
-        elif 'decrypt' in request.form:
-            print("Decrypting message...")
-            token = request.form.get("encrypted_message")
-            if token:
-                decrypted_message = decryption(token) 
-                
-    return render_template("gustavo.html", encrypted_message=encrypted_message, decrypted_message=decrypted_message)
+        if 'user1_send' in request.form:
+            user1_message = request.form.get("user1_message")
+            if user1_message:
+                encrypted_message = encryption(user1_message)
+                chat_log.append(("User 1", encrypted_message))
+        elif 'user2_send' in request.form:
+            user2_message = request.form.get("user2_message")
+            if user2_message:
+                encrypted_message = encryption(user2_message)
+                chat_log.append(("User 2", encrypted_message))
 
+    processed_chat_log = [(user, message, decryption(message)) for user, message in chat_log]
+
+    return render_template("gustavo.html", chat_log=processed_chat_log)
 #Vitor's Page
 @app.route("/imageEncryption", methods=["GET", "POST"])
 def imageEncryption():
